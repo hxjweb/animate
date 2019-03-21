@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>双向匀速运动</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            position: absolute;
+            left:500px;
+            top:0;
+            width: 100px;
+            height: 100px;
+            background: aquamarine;
+        }
+        .button{
+            position: absolute;
+            left:400px;
+            top:200px;
+        }
+        .button input{
+            display: inline-block;
+            width: 100px;
+            height: 60px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <div class="button">
+        <input type="button" value="向左" id="left">
+        <input type="button" value="向右" id="right">
+    </div>
+    <script>
+        function getCss(curEle,attr) {
+            if(window.getComputedStyle){
+                return window.getComputedStyle(curEle,null)[attr];
+            }else{
+                return curEle.currentStyle[attr];
+            }
+        }
+        var timer = null;
+        function move(curEle,target,duration,interval) {
+            var boxLeft = parseInt(getCss(curEle,'left')),
+                step = (Math.abs(target-boxLeft))/duration*interval;
+            if(target > boxLeft){
+                timer = window.setInterval(function () {
+                    if(boxLeft+step >= target){
+                        curEle.style['left'] = target+'px';
+                        window.clearInterval(timer);
+                        return;
+                    }
+                    boxLeft += step;
+                    curEle.style['left'] = boxLeft+'px';
+                },interval)
+            }else if(target < boxLeft){
+                timer = window.setInterval(function () {
+                    if(boxLeft-step <= target){
+                        curEle.style['left'] = target+'px';
+                        window.clearInterval(timer);
+                        return;
+                    }
+                    boxLeft -= step;
+                    curEle.style['left'] = boxLeft+'px';
+                },interval)
+            }else{
+                return;
+            }
+        }
+        var  box = document.getElementById('box');
+        var minLeft = 0,
+            maxLeft = (document.documentElement.clientWidth || document.body.clientWidth) - box.offsetWidth;
+        document.getElementById('left').onclick=function () {
+            window.clearInterval(timer);
+            move(box,minLeft,2000,10);
+        }
+        document.getElementById('right').onclick = function () {
+            window.clearInterval(timer);
+            move(box,maxLeft,2000,10)
+        }
+    </script>
+</body>
+</html>

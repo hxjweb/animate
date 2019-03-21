@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实现多方向运动</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 100px;
+            height: 100px;
+            background: orange;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+
+</div>
+<script src="utils.js"></script>
+<script src="move.js"></script>
+<script>
+
+    var box = document.getElementById('box');
+    animationMove(box,{
+        left:700,
+        top:500,
+        opacity:0.5,
+    },1000,function () {
+        setCss(box,'background','green')
+    });
+
+</script>
+</body>
+</html>

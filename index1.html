@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>向右匀速运动</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 100px;
+            height: 100px;
+            background: aquamarine;
+        }
+    </style>
+</head>
+<body>
+<!--向右匀速运动-->
+<div id="box">
+
+</div>
+<script>
+    var box = document.getElementById('box');
+    //target为一屏幕的宽度-盒子本身的宽度
+    var target = (document.documentElement.clientWidth || document.body.clientWidth) - box.offsetWidth;
+    var duration = 2000, interval = 10,
+        step = (target/duration)*interval;
+    /*var timer = window.setInterval(function () {
+        var curLeft = window.getComputedStyle ? window.getComputedStyle(box,null)['left'] : box.currentStyle['left'];
+        curLeft = parseInt(curLeft);
+        //curLeft+step来判断使为了处理边界问题（最后一次加上步长后大于target出现滚动条）
+        if(curLeft+step >= target){
+            box.style['left'] = target+'px';
+            window.clearInterval(timer);
+            return;
+        }
+        curLeft += step;
+        box.style['left'] = curLeft+'px';
+    },interval)*/
+    //采用递归的思想，设置setTimeout实现动画
+    var timer = null;
+    function move() {
+        //每次都清除没用的定时器
+        window.clearTimeout(timer);
+        var curLeft = window.getComputedStyle ? window.getComputedStyle(box,null)['left'] : box.currentStyle['left'];
+        curLeft = parseInt(curLeft);
+        if(curLeft+step >= target){
+            box.style['left'] = target+'px';
+            window.clearInterval(timer);
+            return;
+        }
+        curLeft += step;
+        box.style['left'] = curLeft+'px';
+        timer = window.setTimeout(move,interval);
+    }
+    move();
+</script>
+</body>
+</html>
