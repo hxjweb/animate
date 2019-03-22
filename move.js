@@ -27,7 +27,7 @@
             }
             for(var key in target){
                 if(target.hasOwnProperty(key)){
-                    curEle.style[key] = linear(time,begin[key],change[key],duration)+'px';
+                    setCss(curEle,key,linear(time,begin[key],change[key],duration));
                 }
             }
         },10)
